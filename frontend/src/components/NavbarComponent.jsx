@@ -19,7 +19,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import LeftDrawer from './drawer';
+import LeftDrawer from './DrawerComponent';
 const drawerWidth = 240;
  
 const useStyles = makeStyles((theme) => ({
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Narbar = (props)=>{
+const NarbarComponent = (props)=>{
     const classes = useStyles();
     const open=props.open;
     
@@ -211,4 +211,4 @@ const Narbar = (props)=>{
       </div>
     );
 }
-export default Narbar;
+export default NarbarComponent;

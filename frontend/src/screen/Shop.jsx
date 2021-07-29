@@ -1,9 +1,11 @@
 import {useEffect} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
+
 import {getProducts as listProduct} from '../redux/actions/productActions';
+import CardComponent from '../components/CardComponent';
+//material-ui
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import CardComponent from './cardComponents';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -11,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProductsComponent = ()=>{
+const Shop = ()=>{
     const classes = useStyles();
 
     const dispatch = useDispatch();
@@ -40,4 +42,4 @@ const ProductsComponent = ()=>{
     </div>
     )
 }
-export default ProductsComponent;
+export default Shop;

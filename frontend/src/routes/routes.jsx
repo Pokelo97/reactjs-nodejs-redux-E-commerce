@@ -3,11 +3,10 @@ import {Switch, Route} from 'react-router-dom'
 import clsx from 'clsx';
 import { makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
-import ProductsComponent from '../components/ProductsComponent'
-import ProductComponent from '../components/ProductComponent'
-import addProductComponent from '../components/addProductComponent'
-import CartComponent from '../components/CartComponent'
-import Narbar from '../components/Navbar'
+import Shop from '../screen/Shop'
+import Product from '../screen/Product'
+import Cart from '../screen/Cart'
+import NarbarComponent from '../components/NavbarComponent';
 
 const drawerWidth = 240;
 
@@ -46,7 +45,7 @@ const Routes = () => {
     };
   return (
       <div className={classes.root}>
-        <Narbar 
+        <NarbarComponent
             open={open}
             handleDrawerOpen={handleDrawerOpen}
             handleDrawerClose={handleDrawerClose}
@@ -59,11 +58,10 @@ const Routes = () => {
           <div className={classes.drawerHeader} />
           <Typography paragraph>
           <Switch>
-            <Route exact path="/" component={ProductsComponent}/>
-            <Route exact path="/Shop" component={ProductsComponent}/>
-            <Route exact path="/product/:id" component={ProductComponent}/>
-            <Route exact path="/addproduct" component={addProductComponent}/>
-            <Route exact path="/cart" component={CartComponent}/>
+            <Route exact path="/" component={Shop}/>
+            <Route exact path="/Shop" component={Shop}/>
+            <Route exact path="/product/:id" component={Product}/>
+            <Route exact path="/cart" component={Cart}/>
           </Switch>
         </Typography>
           
