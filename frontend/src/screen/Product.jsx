@@ -3,7 +3,7 @@ import {useSelector,useDispatch} from 'react-redux';
 import {getProductsDetails} from '../redux/actions/productActions';
 import ProductComponent from '../components/ProductComponent';
 import {addToCart} from '../redux/actions/cartActions';
-
+import CircularUnderLoad from '../components/CircularUnderLoadComponent';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
@@ -38,7 +38,7 @@ const Product = ({match,history})=>{
     return (
       <div className={classes.root}>
         <Paper className={classes.paper}>
-          {loading?(<h2>loading...</h2>):error?(<h2>{error}</h2>):(
+          {loading?(<CircularUnderLoad/>):error?(<h2>{error}</h2>):(
               <ProductComponent
                 ImageUrl={product.ImageUrl}
                 name={product.name}
