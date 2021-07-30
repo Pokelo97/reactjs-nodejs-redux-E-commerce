@@ -7,6 +7,7 @@ import Shop from '../screen/Shop'
 import Product from '../screen/Product'
 import Cart from '../screen/Cart'
 import NarbarComponent from '../components/NavbarComponent';
+import AddProduct from '../screen/AddProduct';
 
 const drawerWidth = 240;
 
@@ -61,6 +62,7 @@ const Routes = () => {
             <Route exact path="/" component={Shop}/>
             <Route exact path="/Shop" component={Shop}/>
             <Route exact path="/product/:id" component={Product}/>
+            <Route exact path="/addProduct" component={AddProduct}/>
             <Route exact path="/cart" component={Cart}/>
           </Switch>
         </Typography>

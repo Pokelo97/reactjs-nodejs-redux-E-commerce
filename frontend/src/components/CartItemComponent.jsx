@@ -40,7 +40,7 @@ const CartItemComponent = (props)=>{
                             onChange={(e)=>props.qtyChangeHandler(props.product,e.target.value)}
                         >
                             {[...Array(props.countInStock).keys()].map((x)=>(
-                            <MenuItem value={x+1}>
+                            <MenuItem key={props.product} value={x+1}>
                                 {x+1}
                             </MenuItem>))}
                         </Select>

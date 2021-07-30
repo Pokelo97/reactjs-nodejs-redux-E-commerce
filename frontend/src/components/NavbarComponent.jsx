@@ -164,7 +164,7 @@ const NarbarComponent = (props)=>{
             </Typography>
                   
             <List  className={classes.sectionDesktop}>
-              {['Shop',].map((text, index) => (
+              {['Shop','addProduct'].map((text, index) => (
                 <ListItem button key={text} component={Link} to={`/`+text}>
                   <ListItemIcon>{index % 2 === 0 ?  <ShoppingCart /> :  <ShoppingCart />}</ListItemIcon>
                   <ListItemText primary={text} />
