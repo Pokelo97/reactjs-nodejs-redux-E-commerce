@@ -1,11 +1,13 @@
 import React ,{useState,useEffect} from 'react'
-import AddProductComponent from '../components/AddProductComponent';
+import {useSelector,useDispatch} from 'react-redux';
+import {getProductsDetails,editProduct as edit} from '../../redux/actions/productActions';
+import AddProductComponent from '../../components/AddProductComponent';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import {addProduct as API} from '../backendServer/api'
+import {addProduct as API} from '../../backendServer/api'
 import MuiAlert from '@material-ui/lab/Alert';
   
 function Alert(props) {
@@ -26,28 +28,29 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-const AddProduct = ({history}) =>{
+const EditProduct = ({history,match}) =>{
   const classes = useStyles();
-  const[errorMessage,setErr]=useState([]);
-  const[errShow,setErrShow]=useState(false);
-  const [responseApi,setApiRep]=useState({
-    message:'',
-    show:false
-  })
-  const [values, setValues] = useState({
-    name: {value:"", error:false,message:""},
-    price: {value:"", error:false,message:""},
-    inStock: {value:"", error:false,message:""},
-    description: {value:"", error:false,message:""},
-    ImageUrl:{value:"", error:false,message:""},
-  });
-
-  useEffect(()=> {
+  const[message,setErr]=useState();
+  const [severity,setApiRep]=useState()
+  const [reply,setReply]= useState();
+ 
+  const dispatch = useDispatch();
+  const ProductDetails = useSelector(state => state.getProductDetail);
+  const editedProduct = useSelector(state => state.editProduct);
+  const {product,loading,error}=ProductDetails;
+  useEffect(()=>{
     let privilega=JSON.parse(localStorage.getItem('userData'));
       if(privilega.role!=="admin"){history.push('/signIn');console.log(3)}
-  })
+    dispatch(getProductsDetails(match.params.id));
+},[dispatch,match,history]);
 
-
+const [values, setValues] = useState({
+  name: {value:"", error:false,message:""},
+  price: {value:"", error:false,message:""},
+  inStock: {value:"", error:false,message:""},
+  description: {value:"", error:false,message:""},
+  ImageUrl:{value:"", error:false,message:""},
+});
   const handleChange = (prop) => (e) => {
     e.preventDefault();
     let errorFlag=false;
@@ -72,13 +75,11 @@ const AddProduct = ({history}) =>{
     
   const handleSubmit = (event) => {
     event.preventDefault();
-    setErr([]);
-    console.log(values)
     if(!(values.price.value&& values.name.value&&values.description.value&&values.inStock.value&&values.ImageUrl.value)){
       console.log("err")
 
     }else{
-      
+      console.log(values)
       let info = {
         name:values.name.value,
         price:values.price.value,
@@ -87,17 +88,21 @@ const AddProduct = ({history}) =>{
         description:values.description.value
       }
       let token = localStorage.getItem('token')
-      API(info,token).then( res =>{
-        res.message.errors 
-          ?(res.message.errors.map((error)=>
-            setErr(oldArray => [...oldArray,error.msg])))
-            (setErrShow(true))
-          :(setApiRep({message:res.message,show:true}));
-
-      }).catch(err => {
-        console.log(err);
-        setErr(oldArray => [...oldArray,err])
-      })
+      dispatch(edit(match.params.id,info,token))
+      let error="";
+      let message=''
+      let status =""
+      if(editedProduct.error){
+        error = editedProduct.error
+        setReply(true)
+      }
+      if(editedProduct.product){
+        status =editedProduct.product.status
+        message=editedProduct.product.data.message
+          setReply(true)
+      }
+      setErr(status===200?(message):((error)?(error):(message)))
+      setApiRep(status===200?'success':'error')
     }
   }
   
@@ -107,11 +112,10 @@ const AddProduct = ({history}) =>{
       <div className={classes.root}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h5">
-            ADD PRODUCT
+            EDIT PRODUCT
           </Typography>
           <br/>
-          {errShow?( <Alert severity="error">{errorMessage}</Alert>):<></>}
-          {responseApi.show ?( <Alert severity="success">{responseApi.message}</Alert>):(null)}
+          {reply?( <Alert severity={severity}>{message}</Alert>):<></>}
         <AddProductComponent
           handleChange={handleChange}
           handleSubmit={handleSubmit}
@@ -123,4 +127,4 @@ const AddProduct = ({history}) =>{
     </Container>
   )
 }
-export default AddProduct;
+export default EditProduct;

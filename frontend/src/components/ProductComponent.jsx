@@ -22,6 +22,7 @@ import Select from '@material-ui/core/Select';
   }));
 const ProductComponent = (props)=>{
   const classes = useStyles();
+  
     return (
         <Grid container spacing={3}>
             <Grid item xs={12}sm={4}>
@@ -54,7 +55,7 @@ const ProductComponent = (props)=>{
                         value={props.qty}
                         onChange={(e)=>props.onChangeHandler(e.target.value)}
                       >
-                        {[...Array(props.InStock).keys()].map((x)=>(<MenuItem value={x+1}>{x+1}</MenuItem>))}
+                        {[...Array(props.InStock).keys()].map((x)=>(<MenuItem key={x} value={x+1}>{x+1}</MenuItem>))}
                       </Select>
                     </FormControl>
                     </Typography>

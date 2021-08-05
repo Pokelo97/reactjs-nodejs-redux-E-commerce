@@ -11,10 +11,9 @@ import Close from '@material-ui/icons/Close';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import Person from '@material-ui/icons/Person';
 import Grid from '@material-ui/core/Grid';
+import ShoppingCart from '@material-ui/icons/ShoppingCart';
 
 const drawerWidth = 240;
 
@@ -64,6 +63,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LeftDrawer(props) {
   const classes = useStyles();
+  
+  const privilega=JSON.parse(localStorage.getItem('userData'));
+  const isauthenticated= localStorage.getItem('isauthenticated');
 
   return (
     <div className={classes.root}>
@@ -84,19 +86,29 @@ export default function LeftDrawer(props) {
         </div>
         <Divider />
         <List>
-          {['Shop','addProduct'].map((text, index) => (
-            <ListItem button key={text} component={Link} to={`/`+text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+          <ListItem button key='shop' component={Link} to='/Shop'>
+              <ListItemIcon><ShoppingCart/></ListItemIcon>
+              <ListItemText primary='Shop' />
             </ListItem>
-          ))}
+
+            
+            {isauthenticated&&privilega.role==='admin'?
+                (<><ListItem button key="AddProduct" component={Link} to='/addProduct'>
+                    <ListItemText primary='Add Product' />
+                </ListItem>
+                <ListItem button key="Products" component={Link} to='/admin'>
+                    <ListItemText primary='Products' />
+                </ListItem></>):(<></>)}
+        
         </List>
         <List>
         <Grid container spacing={2}>
+          {!isauthenticated?(<>
           <Grid item xs={6}>
             <Button
               variant="contained"
               color="primary"
+              component={Link} to='/signIn'
               className={classes.button}
               endIcon={<Person/>}
             >
@@ -104,10 +116,17 @@ export default function LeftDrawer(props) {
             </Button>
           </Grid>
           <Grid item xs={6}>
-            <Button color="primary">
+            <Button color="primary" component={Link} to='/signUp' className={classes.button}>
               Register
             </Button>
           </Grid>
+        </>):(
+          <Grid item xs={12}>
+          <Button color="primary" component={Link} to='/signOut' className={classes.button}>
+            SIGN OUT
+          </Button>
+        </Grid>
+        )}
         </Grid>
         </List>
       </Drawer>

@@ -8,7 +8,6 @@ exports.addProduct = async(req,res,next) => {
         return res.status(201).json({ message: errors });
     }
     try{
-        
         const [row] = await db_conn.execute(
             "SELECT `name` FROM `product` WHERE `name`=?",
             [req.body.name]

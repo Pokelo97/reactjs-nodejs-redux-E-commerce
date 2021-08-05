@@ -26,12 +26,17 @@ const useStyles = makeStyles({
   
   const addToCartHandler=()=>{
     dispatch(addToCart(props.productId,1));
+    props.handleOpen()
+    console.log(props.products)
   };
 
   return (
     <Grid item xs={12} sm={6} md={3}>
     <Card className={classes.root}>
-      <CardActionArea>
+      <CardActionArea 
+        component={Link} 
+        to={`/product/`+props.productId}
+        >
         <CardMedia
           component="img"
           alt="Contemplative Reptile"

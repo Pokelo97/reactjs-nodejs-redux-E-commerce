@@ -44,3 +44,51 @@ export const getProductDetailReducer = (state = {product:{}},action)=>{
             return state;
     }
 }
+export const removeProductReducer  = (state = { product:{}},action)=>{
+    switch (action.type) {
+        case actionType.DELETE_PRODUCT_REQUEST:
+            return{
+                loading:true,
+
+            };
+        case actionType.DELETE_PRODUCT_SECCESS:
+            return{
+                loading:false,
+                product:action.payload,
+
+            }
+
+        case actionType.DELETE_PRODUCT_FAIL:
+           return{
+            loading:false,
+            error:action.payload,
+           };
+        default:
+            return state;
+    }
+}
+export const editProductReducer  = (state = { product:{}},action)=>{
+    switch (action.type) {
+        case actionType.EDIT_PRODUCT_REQUEST:
+            return{
+                loading:true,
+
+            };
+        case actionType.EDIT_PRODUCT_SECCESS:
+            return{
+                loading:false,
+                product:action.payload,
+                error:false,
+
+            }
+
+        case actionType.EDIT_PRODUCT_FAIL:
+           return{
+            loading:false,
+            error:action.payload,
+            product:false
+           };
+        default:
+            return state;
+    }
+}

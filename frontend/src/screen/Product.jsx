@@ -6,6 +6,7 @@ import {addToCart} from '../redux/actions/cartActions';
 import CircularUnderLoad from '../components/CircularUnderLoadComponent';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,6 +38,12 @@ const Product = ({match,history})=>{
   }
     return (
       <div className={classes.root}>
+        <Paper className={classes.paper}>
+            <Typography variant="h6" noWrap>
+              Product
+            </Typography>
+      </Paper>
+      <br/>
         <Paper className={classes.paper}>
           {loading?(<CircularUnderLoad/>):error?(<h2>{error}</h2>):(
               <ProductComponent

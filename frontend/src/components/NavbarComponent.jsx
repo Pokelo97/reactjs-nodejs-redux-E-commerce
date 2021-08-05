@@ -1,8 +1,7 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import clsx from 'clsx';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import {useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -56,8 +55,11 @@ const useStyles = makeStyles((theme) => ({
 
 
 const NarbarComponent = (props)=>{
+  
     const classes = useStyles();
     const open=props.open;
+    const privilega=JSON.parse(localStorage.getItem('userData'));
+    const isauthenticated= localStorage.getItem('isauthenticated');
     
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -99,9 +101,12 @@ const NarbarComponent = (props)=>{
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={isMenuOpen}
         onClose={handleMenuClose}
-      >
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      >{isauthenticated===true?
+        (<MenuItem onClick={handleMenuClose}>Profile</MenuItem>)
+        (<MenuItem onClick={handleMenuClose}>My account</MenuItem>)
+        (<MenuItem component={Link} to="/signOut">SIGN OUT</MenuItem>):(
+          <MenuItem component={Link} to="/signIn">SIGN IN</MenuItem>
+        )}
       </Menu>
     );
   
@@ -162,18 +167,23 @@ const NarbarComponent = (props)=>{
             <Typography variant="h6" noWrap>
               Lucky E-commerce
             </Typography>
-                  
             <List  className={classes.sectionDesktop}>
-              {['Shop','addProduct'].map((text, index) => (
-                <ListItem button key={text} component={Link} to={`/`+text}>
-                  <ListItemIcon>{index % 2 === 0 ?  <ShoppingCart /> :  <ShoppingCart />}</ListItemIcon>
-                  <ListItemText primary={text} />
+                <ListItem button key="Shop" component={Link} to='/Shop'>
+                  <ListItemText primary='Shop' />
                 </ListItem>
-              ))}
-            </List>
+
+                {isauthenticated&&privilega.role==='admin'?
+                (<><ListItem button key="AddProduct" component={Link} to='/addProduct'>
+                    <ListItemText primary='Add Product' />
+                </ListItem>
+                <ListItem button key="Products" component={Link} to='/admin'>
+                    <ListItemText primary='Products' />
+                </ListItem></>):(<></>)}
+
+            </List> 
             <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit" component={Link} to="/cart">
+            <IconButton aria-label="cart" color="inherit" component={Link} to="/cart">
               <Badge badgeContent={cartCount()} color="secondary">
                 <ShoppingCart />
               </Badge>
