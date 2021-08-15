@@ -3,7 +3,7 @@
 ## What's this?
 A simple e-commerce program!
 
-[![Run on Repl.it](https://repl.it/badge/github/Pokelo97/Web-Chat)](https://repl.it/github/Pokelo97/Web-Chat)
+[![Run on Repl.it](https://repl.it/badge/github/Pokelo97/reactjs-nodejs-redux-E-commerce)](https://repl.it/github/Pokelo97/reactjs-nodejs-redux-E-commerce)
 
 ## Author
 
